@@ -20,7 +20,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className='container mx-3 my-3 text-rose-300'>
 		{error && <div>Failed to load {error.toString()}</div>}
       {
         !data ? <div>Loading...</div>
@@ -31,7 +31,7 @@ export default function Home() {
 
       <Input onSuccess={getData} />
       {data?.data ? data.data.map((item, index) => (
-        <p key={index}>{item}</p>
+        <p key={index} className='text-rose-300'>{item}</p>
       )) :
         <p>data kosong</p>
       }
@@ -66,7 +66,7 @@ export default function Home() {
     return (
       <div>
         <form onSubmit={handleSubmit}>
-          <input name="data" type="text" />
+          <input className='rounded-md' name="data" type="text" />
           <button className='bg-sky-500
             hover:bg-sky-700
             active:bg-sky-700
