@@ -9,14 +9,20 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-var db []string
+// var db []string
+
+type DB struct {
+	text string
+}
+
+var db []DB
 
 type DataRequest struct {
 	Text string `json:"text"`
 }
 
 func main() {
-	db = make([]string, 0)
+	// db = make([]string, 0)
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
@@ -27,8 +33,12 @@ func main() {
 }
 
 func handler(c *gin.Context) {
+	var s []string
+	for _, v := range db {
+		s = append(s, v.text)
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"data": db,
+		"data": s,
 	})
 }
 
@@ -38,6 +48,10 @@ func postHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	db = append(db, data.Text)
+	// db = append(db, data.Text)
+	var dataBaru = DB{text: data.Text}
+
+	db = append(db, dataBaru)
+
 	c.JSON(http.StatusOK, gin.H{"message": "data berhasil terkirim", "data": data.Text})
 }
