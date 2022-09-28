@@ -67,7 +67,14 @@ export default function Home() {
       <div>
         <form onSubmit={handleSubmit}>
           <input name="data" type="text" />
-          <button >Submit</button>
+          <button className='bg-sky-500
+            hover:bg-sky-700
+            active:bg-sky-700
+            focus:outline-none
+            focus:ring
+            focus:ring-sky-300
+            rounded-md
+            ml-3'>Submit</button>
         </form>
       </div>
     )
