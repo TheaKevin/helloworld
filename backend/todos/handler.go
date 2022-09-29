@@ -49,3 +49,20 @@ func (h *Handler) CreateTodo(c *gin.Context) {
 		"data":    res,
 	})
 }
+
+func (h *Handler) DeleteTodo(c *gin.Context) {
+	taskID := c.Param("taskId")
+
+	todos, status, err := h.Service.DeleteTodos(taskID)
+	if err != nil {
+		c.JSON(status, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(status, gin.H{
+		"message": "Task Deleted",
+		"data":    todos,
+	})
+}
