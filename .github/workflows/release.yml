@@ -6,7 +6,46 @@ on:
       - main
 
 jobs:
-  heroku:
+
+  check-quality:
+
+    runs-on: ubuntu-latest
+    name: A job to check my code quality
+    steps:
+
+    - name: Check code meets quality standards
+      id: codiga
+      uses: codiga/github-action@master
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        codiga_api_token: ${{ secrets.CODIGA_API_TOKEN }}
+        force_ref: 'none'
+        min_quality_grade: 'WARNING'
+        min_quality_score: '50'
+        max_defects_rate: '0.0001'
+        max_complex_functions_rate: '0.0001'
+        max_long_functions_rate: '0.0001'
+        project_name: ''
+        max_timeout_sec: '600'
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
+
+heroku:
     runs-on: ubuntu-latest
 
     steps:
