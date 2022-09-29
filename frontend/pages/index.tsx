@@ -19,12 +19,36 @@ export default function Home() {
     }
   }
 
-  const deleteTask = () => {
-    
+  const deleteTask = async (index) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/delete/${index}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      setData(data.message);
+      getData()
+    }
+    catch (error) {
+      setError(error);
+    }
+  }
+
+  const doneTask = async (index) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/changeDone/${index}`, {
+        method: 'PUT'
+      });
+      const data = await res.json();
+      setData(data.message);
+      getData()
+    }
+    catch (error) {
+      setError(error);
+    }
   }
 
   return (
-    <div className='container mx-3 my-3 text-rose-300'>
+    <div className='container mx-3 my-3'>
 		{error && <div>Failed to load {error.toString()}</div>}
       {
         !data ? <div>Loading...</div>
@@ -36,8 +60,17 @@ export default function Home() {
       <Input onSuccess={getData} />
       {data?.data && data?.data?.map((item, index) => (
         <div className='my-3' key={index}>
-          <span >ID: {item.ID} task: {item.task}</span>
-          <input className='mx-2' type="checkbox" defaultChecked={item.done} />
+          <input className='mx-2' type="checkbox" defaultChecked={item.done} disabled/>
+          <span className='text-rose-300'>ID: {item.ID} task: {item.task}</span>
+          <button className='bg-teal-600
+            hover:bg-teal-700
+            active:bg-teal-700
+            focus:outline-none
+            focus:ring
+            focus:ring-teal-400
+            rounded-md
+            ml-3'
+            onClick={() => doneTask(item.ID)}>Done</button>
           <button className='bg-rose-600
             hover:bg-rose-700
             active:bg-rose-700
@@ -46,7 +79,7 @@ export default function Home() {
             focus:ring-rose-400
             rounded-md
             ml-3'
-            onClick={() => deleteTask()}>Delete</button>
+            onClick={() => deleteTask(item.ID)}>Delete</button>
         </div>
       ))}
     </div>
