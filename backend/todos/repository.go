@@ -8,6 +8,8 @@ import (
 type Repository interface {
 	GetTodos() ([]models.Todos, error)
 	CreateTodos(task string) (models.Todos, error)
+	DeleteTodos(ID string) ([]models.Todos, error)
+	ChangeDoneTodo(ID string) ([]models.Todos, error)
 }
 
 type repository struct {
@@ -40,4 +42,27 @@ func (r *repository) CreateTodos(task string) (models.Todos, error) {
 	}
 
 	return todo, nil
+}
+
+func (r *repository) DeleteTodos(ID string) ([]models.Todos, error) {
+	var todos []models.Todos
+	res := r.db.Where("ID = ?", ID).Delete(&todos)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return todos, nil
+}
+
+func (r *repository) ChangeDoneTodo(ID string) ([]models.Todos, error) {
+	var todos []models.Todos
+
+	res := r.db.Where("ID = ?", ID).Updates(models.Todos{
+		Done: true,
+	})
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return todos, nil
 }
