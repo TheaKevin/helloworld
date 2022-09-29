@@ -19,6 +19,10 @@ export default function Home() {
     }
   }
 
+  const deleteTask = () => {
+    
+  }
+
   return (
     <div className='container mx-3 my-3 text-rose-300'>
 		{error && <div>Failed to load {error.toString()}</div>}
@@ -30,11 +34,21 @@ export default function Home() {
       }
 
       <Input onSuccess={getData} />
-      {data?.data ? data.data.map((item, index) => (
-        <p key={index} className='text-rose-300'>{item}</p>
-      )) :
-        <p>data kosong</p>
-      }
+      {data?.data && data?.data?.map((item, index) => (
+        <div className='my-3' key={index}>
+          <span >ID: {item.ID} task: {item.task}</span>
+          <input className='mx-2' type="checkbox" defaultChecked={item.done} />
+          <button className='bg-rose-600
+            hover:bg-rose-700
+            active:bg-rose-700
+            focus:outline-none
+            focus:ring
+            focus:ring-rose-400
+            rounded-md
+            ml-3'
+            onClick={() => deleteTask()}>Delete</button>
+        </div>
+      ))}
     </div>
   )
 
