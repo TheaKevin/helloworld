@@ -7,7 +7,7 @@ import (
 
 type Repository interface {
 	GetTodos() ([]models.Todos, error)
-	CreateTodos(data DataRequest) (models.Todos, error)
+	CreateTodos(task string) (models.Todos, error)
 }
 
 type repository struct {
@@ -28,9 +28,9 @@ func (r *repository) GetTodos() ([]models.Todos, error) {
 	return todos, nil
 }
 
-func (r *repository) CreateTodos(req DataRequest) (models.Todos, error) {
+func (r *repository) CreateTodos(task string) (models.Todos, error) {
 	todo := models.Todos{
-		Task: req.Task,
+		Task: task,
 		Done: false,
 	}
 

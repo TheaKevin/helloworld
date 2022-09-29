@@ -46,7 +46,7 @@ export default function Home() {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const body = {
-        text: formData.get("data")
+        task: formData.get("data")
       }
   
       try {
