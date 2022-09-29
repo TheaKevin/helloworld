@@ -47,3 +47,34 @@ func TestGetTodo(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 2, len(todos))
 }
+
+func TestDeleteTodo(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	repo.CreateTodos("task 1")
+	repo.CreateTodos("task 2")
+
+	delete, err := repo.DeleteTodos("1")
+	assert.NoError(t, err)
+	assert.Equal(t, 0, len(delete))
+
+	todos, err := repo.GetTodos()
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(todos))
+}
+
+func TestChangeDoneTodo(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	repo.CreateTodos("task 1")
+	repo.CreateTodos("task 2")
+	repo.ChangeDoneTodo("1")
+
+	todos, err := repo.GetTodos()
+	assert.NoError(t, err)
+	assert.Equal(t, todos[0].Done, true)
+	assert.Equal(t, todos[1].Done, false)
+
+}
