@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <div className='container mx-3 my-3'>
+    <div className='container mx-auto my-5'>
 		{error && <div>Failed to load {error.toString()}</div>}
       {
         !data ? <div>Loading...</div>
@@ -58,30 +58,47 @@ export default function Home() {
       }
 
       <Input onSuccess={getData} />
-      {data?.data && data?.data?.map((item, index) => (
-        <div className='my-3' key={index}>
-          <input className='mx-2' type="checkbox" defaultChecked={item.done} disabled/>
-          <span className='text-rose-300'>ID: {item.ID} task: {item.task}</span>
-          <button className='bg-teal-600
-            hover:bg-teal-700
-            active:bg-teal-700
-            focus:outline-none
-            focus:ring
-            focus:ring-teal-400
-            rounded-md
-            ml-3'
-            onClick={() => doneTask(item.ID)}>Done</button>
-          <button className='bg-rose-600
-            hover:bg-rose-700
-            active:bg-rose-700
-            focus:outline-none
-            focus:ring
-            focus:ring-rose-400
-            rounded-md
-            ml-3'
-            onClick={() => deleteTask(item.ID)}>Delete</button>
-        </div>
-      ))}
+      <table className='table-auto mx-auto mt-5'>
+        <thead>
+          <tr>
+            <th>Check</th>
+            <th>Task</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.data && data?.data?.map((item, index) => (
+            <tr className='my-3' key={index}>
+              <td>
+                <input className='mx-2' type="checkbox" defaultChecked={item.done} disabled/>
+              </td>
+              <td>
+                <span className='text-rose-300'>ID: {item.ID} task: {item.task}</span>
+              </td>
+              <td>
+                <button className='bg-teal-600
+                  hover:bg-teal-700
+                  active:bg-teal-700
+                  focus:outline-none
+                  focus:ring
+                  focus:ring-teal-400
+                  rounded-md
+                  ml-3'
+                  onClick={() => doneTask(item.ID)}>Done</button>
+                <button className='bg-rose-600
+                  hover:bg-rose-700
+                  active:bg-rose-700
+                  focus:outline-none
+                  focus:ring
+                  focus:ring-rose-400
+                  rounded-md
+                  ml-3'
+                  onClick={() => deleteTask(item.ID)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 
@@ -111,7 +128,7 @@ export default function Home() {
     }
 
     return (
-      <div>
+      <div className='text-center'>
         <form onSubmit={handleSubmit}>
           <input className='rounded-md' name="data" type="text" />
           <button className='bg-sky-500

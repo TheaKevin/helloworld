@@ -1,6 +1,6 @@
 name: deployment
 
-on:
+on: 
   push:
     branches:
       - main
@@ -40,7 +40,7 @@ jobs:
           go-version: 1.15
 
       - name: Test
-        run: go test
+        run: go test -cover -v ./...
 
   heroku:
     runs-on: ubuntu-latest
