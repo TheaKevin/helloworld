@@ -66,3 +66,20 @@ func (h *Handler) DeleteTodo(c *gin.Context) {
 		"data":    todos,
 	})
 }
+
+func (h *Handler) ChangeDoneTodo(c *gin.Context) {
+	taskID := c.Param("taskId")
+
+	todos, status, err := h.Service.ChangeDoneTodo(taskID)
+	if err != nil {
+		c.JSON(status, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(status, gin.H{
+		"message": "Task Update Success",
+		"data":    todos,
+	})
+}
