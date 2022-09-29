@@ -45,7 +45,7 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-heroku:
+  heroku:
     runs-on: ubuntu-latest
 
     steps:
